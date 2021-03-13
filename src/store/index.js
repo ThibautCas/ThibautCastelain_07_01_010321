@@ -8,16 +8,20 @@ export default new Vuex.Store({
   state: {
     status: "",
     token: localStorage.getItem("token") || "",
-    user: {},
+    firstName: localStorage.getItem("firstName") || "",
+    lastName: localStorage.getItem("lastName") || "",
+    fonction: localStorage.getItem("fonction") || ""
   },
   mutations: {
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token, user) {
+    auth_success(state, token, firstName, lastName, fonction) {
       state.status = "success";
       state.token = token;
-      state.user = user;
+      state.firstName = firstName;
+      state.lastName = lastName;
+      state.fonction = fonction;
     },
     auth_error(state) {
       state.status = "error";
@@ -38,10 +42,15 @@ export default new Vuex.Store({
         })
           .then((resp) => {
             const token = resp.data.token;
-            const user = resp.data.user;
+            const firstName = resp.data.firstName;
+            const lastName = resp.data.lastName;
+            const fonction = resp.data.fonction;
             localStorage.setItem("token", token);
+            localStorage.setItem("firstName", firstName);
+            localStorage.setItem("lastName", lastName);
+            localStorage.setItem("fonction", fonction);
             axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
+            commit("auth_success", token, firstName, lastName, fonction);
             resolve(resp);
           })
           .catch((err) => {
@@ -61,10 +70,15 @@ export default new Vuex.Store({
         })
           .then((resp) => {
             const token = resp.data.token;
-            const user = resp.data.user;
+            const firstName = resp.data.firstName;
+            const lastName = resp.data.lastName;
+            const fonction = resp.data.fonction;
             localStorage.setItem("token", token);
+            localStorage.setItem("firstName", firstName);
+            localStorage.setItem("lastName", lastName);
+            localStorage.setItem("fonction", fonction);
             axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, user);
+            commit("auth_success", token, firstName, lastName, fonction);
             resolve(resp);
           })
           .catch((err) => {
@@ -78,6 +92,9 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         commit("logout");
         localStorage.removeItem("token");
+        localStorage.removeItem("firstName");
+        localStorage.removeItem("lastName");
+        localStorage.removeItem("fonction");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
       });

@@ -17,9 +17,7 @@
 
 
       <v-app-bar-title>Groupomania</v-app-bar-title>
-      <v-btn v-if="isLoggedIn" @click="logout" color="error" depressed
-          >Log Out</v-btn
-        >
+      
     </v-app-bar>
     <v-sheet
       id="scrolling-techniques-2"
@@ -34,18 +32,6 @@
 <script>
 
 export default {
-  name: 'Header',
-  computed: {
-    isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
-    },
-  },
-  methods: {
-    logout: function() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login");
-      });
-    },
-  },
+  name: 'Header'
 }
 </script>

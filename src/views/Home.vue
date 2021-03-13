@@ -1,14 +1,15 @@
 <template>
   <v-app>
-    <div id="app">
-      <div id="nav">
+    <div>
+      <v-container>
         <Header />
-        <router-view>
           <Login v-if="!isLoggedIn" />
-          <Connected v-if="isLoggedIn" />
-        </router-view>
+          <v-row>
+          <v-col cols="4" sm="12"><Sidebar v-if="isLoggedIn" /></v-col>
+          <v-col cols="8" sm="12"><PostDisplay v-if="isLoggedIn" /></v-col>
+          </v-row>
         <Footer />
-      </div>
+      </v-container>
     </div>
   </v-app>
 </template>
@@ -16,7 +17,8 @@
 <script>
 import Header from "../components/Header";
 import Login from "../components/Login";
-import Connected from "../components/Connected";
+import Sidebar from "../components/Sidebar";
+import PostDisplay from "../components/PostDisplay";
 import Footer from "../components/Footer"
 
 export default {
@@ -25,7 +27,8 @@ export default {
   components: {
     Header,
     Login,
-    Connected,
+    Sidebar,
+    PostDisplay,
     Footer
   },
 

@@ -83,7 +83,7 @@ export default {
         let email = this.form.email
         let password = this.form.password
         this.$store.dispatch('login', { email, password })
-       .then(() => this.$router.push('/secure'))
+       .then(() => this.$router.push('/'))
        .catch(err => console.log(err))
       }
     }

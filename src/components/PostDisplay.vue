@@ -37,6 +37,6 @@
 <script>
 
 export default {
-    name: 'Connected',
+    name: 'PostDisplay',
 }
 </script>
