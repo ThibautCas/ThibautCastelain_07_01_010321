@@ -1,32 +1,41 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <v-app>
+    <div id="app">
+      <div id="nav">
+        <v-btn v-if="isLoggedIn" @click="logout" color="error" depressed
+          >Log Out</v-btn
+        >
+        <router-view>
+          <Login v-if="!isLoggedIn" />
+        </router-view>
+      </div>
     </div>
-    <router-view/>
-  </div>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Login from "./components/Login";
+export default {
+  name: "App",
 
-#nav {
-  padding: 30px;
+  components: {
+    Login,
+  },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  data: () => ({
+    //
+  }),
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    },
+  },
+  methods: {
+    logout: function() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
+    },
+  },
+};
+</script>
