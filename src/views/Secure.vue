@@ -6,7 +6,12 @@
 </template>
 
 <script>
+import Header from "../components/Header"
+
 export default {
-  
+  name: 'Secure',
+  components: {
+    Header
+  }
 }
 </script>

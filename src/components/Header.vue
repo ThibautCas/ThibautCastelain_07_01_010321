@@ -15,23 +15,37 @@
         ></v-img>
       </template>
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-app-bar-title>Groupomania</v-app-bar-title>
-
+      <v-btn v-if="isLoggedIn" @click="logout" color="error" depressed
+          >Log Out</v-btn
+        >
     </v-app-bar>
     <v-sheet
       id="scrolling-techniques-2"
       class="overflow-y-auto"
       max-height="600"
     >
-      <v-container style="height: 1000px;"></v-container>
+      <v-container style="height: 128px;"></v-container>
     </v-sheet>
   </v-card>
 </template>
 
 <script>
+
 export default {
-  name: "Header",
-};
+  name: 'Header',
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    },
+  },
+  methods: {
+    logout: function() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login");
+      });
+    },
+  },
+}
 </script>
