@@ -31,9 +31,15 @@ export default new Vuex.Store({
     logout(state) {
       state.status = "";
       state.token = "";
+      state.firstName = "";
+      state.lastName = "";
+      state.fonction = "";
+      state.userId = ""
+
     },
   },
   actions: {
+    // USER 
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
@@ -54,7 +60,7 @@ export default new Vuex.Store({
             localStorage.setItem("fonction", fonction);
             localStorage.setItem("userId", userId);
             axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, firstName, lastName, fonction);
+            commit("auth_success", token, firstName, lastName, fonction, userId);
             resolve(resp);
           })
           .catch((err) => {
@@ -92,7 +98,7 @@ export default new Vuex.Store({
           });
       });
     },
-    update({ commit }, user) {
+    updateUser({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit("auth_success");
         const userId = this.$store.data.userId;
@@ -121,7 +127,7 @@ export default new Vuex.Store({
     deleteUser({ commit }, user) {
       return new Promise ((resolve, reject) => {
         commit("logout");
-        const userId = this.$store.data.userId;
+        const userId = this.$store.state.userId;
         axios({
           url: `http://localhost:3000/auth/user/${userId}/delete`,
           data: user,

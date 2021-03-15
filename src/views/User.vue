@@ -1,6 +1,6 @@
 <template>
     <v-card width="500" class="mx-auto mt-5">
-      <v-form ref="form" @submit.prevent="update">
+      <v-form ref="form" @submit.prevent="updateUser">
         <h1 class="text-center ma-4">User Informations</h1>
         <v-text-field
           v-model="form.firstName"
@@ -105,7 +105,7 @@ export default {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
     },
-    update: function() {
+    updateUser: function() {
       if (this.form.password === this.form.passwordCheck) {
       let data = {
         firstName: this.form.firstName,
@@ -116,7 +116,7 @@ export default {
         userId: this.state.userId
       };
       this.$store
-        .dispatch("update", data)
+        .dispatch("updateUser", data)
         .then(() => {
           this.$router.push("/");
         })

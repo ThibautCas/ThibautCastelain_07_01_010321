@@ -19,10 +19,11 @@
           <v-divider></v-divider>
 
           <v-list dense nav>
-            <v-list-item v-for="link in links" :key="link">
-              <v-list-item-action>
-                <v-icon>{{ link.icon }}</v-icon>
-              </v-list-item-action>
+            <v-list-item>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item>
+            <v-list-item>
+              <v-icon>mdi-forum</v-icon>
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -31,14 +32,22 @@
             {{ $store.state.firstName }}
             {{ $store.state.lastName }}</v-list-item
           >
-          <router-link to="/user" >
-            <v-btn class="mx-3 mb-1" @click="user" role="link" color="warning"
+          <router-link to="/user">
+            <v-btn
+              class="mx-3 mb-1"
+              @click="user"
+              role="link"
+              color="warning"
+              depressed
               >Edit infos</v-btn
             >
           </router-link>
           <v-divider></v-divider>
-          <v-list-item v-for="link in links" :key="link" link>
-            <v-list-item-title v-text="link.name"></v-list-item-title>
+          <v-list-item>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Add Post</v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
           <v-btn
@@ -59,10 +68,10 @@
 export default {
   data() {
     return {
-      links: [
-        { name: "Home", icon: "mdi-home" },
-        { name: "Add New Post", icon: "mdi-forum" },
-      ],
+      firstName: localStorage.firstName,
+      lastName: localStorage.lastName,
+      fonction: localStorage.fonction,
+      userId: localStorage.userId,
       mini: true,
     };
   },
