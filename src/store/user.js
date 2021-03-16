@@ -1,17 +1,13 @@
-import Vue from "vue";
-import Vuex from "vuex";
-//import axios from "axios";
-import { user } from './user';
-Vue.use(Vuex);
+import axios from "axios";
 
-export default new Vuex.Store({
-  /*state: {
+export const user = {
+  state: {
     status: "",
     token: localStorage.getItem("token") || "",
     firstName: localStorage.getItem("firstName") || "",
     lastName: localStorage.getItem("lastName") || "",
     fonction: localStorage.getItem("fonction") || "",
-    userId: localStorage.getItem("userId") || ""
+    userId: localStorage.getItem("userId") || "",
   },
   mutations: {
     auth_request(state) {
@@ -41,12 +37,10 @@ export default new Vuex.Store({
       state.firstName = "";
       state.lastName = "";
       state.fonction = "";
-      state.userId = ""
-
+      state.userId = "";
     },
   },
   actions: {
-    // USER 
     login({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit("auth_request");
@@ -107,24 +101,24 @@ export default new Vuex.Store({
           data: user,
           method: "PUT",
         })
-        .then((resp) => {
-          const payload = resp.data;
-          localStorage.setItem("firstName", payload.firstName);
-          localStorage.setItem("lastName", payload.lastName);
-          localStorage.setItem("fonction", payload.fonction);
-          localStorage.setItem("userId", payload.userId);
-          commit("update_success", payload);
-          return resolve(resp);
-        })
-        .catch((err) => {
-          commit("auth_error");
-          localStorage.removeItem("token");
-          return reject(err);
-        })
+          .then((resp) => {
+            const payload = resp.data;
+            localStorage.setItem("firstName", payload.firstName);
+            localStorage.setItem("lastName", payload.lastName);
+            localStorage.setItem("fonction", payload.fonction);
+            localStorage.setItem("userId", payload.userId);
+            commit("update_success", payload);
+            return resolve(resp);
+          })
+          .catch((err) => {
+            commit("auth_error");
+            localStorage.removeItem("token");
+            return reject(err);
+          });
       });
     },
     deleteUser({ commit }, user) {
-      return new Promise ((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         commit("logout");
         const userId = localStorage.userId;
         axios({
@@ -132,21 +126,21 @@ export default new Vuex.Store({
           data: user,
           method: "PUT",
         })
-        .then((resp) => {
-          localStorage.removeItem("token");
-        localStorage.removeItem("firstName");
-        localStorage.removeItem("lastName");
-        localStorage.removeItem("fonction");
-        localStorage.removeItem("userId");
-        delete axios.defaults.headers.common["Authorization"];
-        resolve(resp);
-        })
-        .catch((err) => {
-          commit("auth_error");
-          localStorage.removeItem("token");
-          reject(err);
-        });
-      })
+          .then((resp) => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("firstName");
+            localStorage.removeItem("lastName");
+            localStorage.removeItem("fonction");
+            localStorage.removeItem("userId");
+            delete axios.defaults.headers.common["Authorization"];
+            resolve(resp);
+          })
+          .catch((err) => {
+            commit("auth_error");
+            localStorage.removeItem("token");
+            reject(err);
+          });
+      });
     },
     logout({ commit }) {
       return new Promise((resolve) => {
@@ -164,9 +158,5 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: (state) => !!state.token,
     authStatus: (state) => state.status,
-  },*/
-  modules: {
-    user,
   },
-  
-});
+};

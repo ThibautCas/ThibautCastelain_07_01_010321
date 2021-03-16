@@ -101,12 +101,12 @@ export default {
   name: "Signup",
   data() {
     const defaultForm = Object.freeze({
-      firstName: this.$store.state.firstName || "",
-      lastName: this.$store.state.lastName || "",
-      email: this.$store.state.email || "",
-      fonction: this.$store.state.fonction || "",
+      firstName: this.$store.state.user.firstName || "",
+      lastName: this.$store.state.user.lastName || "",
+      email: this.$store.state.user.email || "",
+      fonction: this.$store.state.user.fonction || "",
       password: "",
-      userId: this.$store.state.userId || "",
+      userId: this.$store.state.user.userId || "",
       terms: false,
     });
     return {
