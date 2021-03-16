@@ -5,8 +5,8 @@
         <Header />
           <Login v-if="!isLoggedIn" />
           <v-row >
-          <v-col cols="4" sm="12"><Sidebar v-if="isLoggedIn" /></v-col>
-          <v-col cols="8" sm="12"><PostDisplay v-if="isLoggedIn" /></v-col>
+          <v-col cols="12" sm="4"><Sidebar v-if="isLoggedIn" /></v-col>
+          <v-col cols="12" sm="8"><PostDisplay v-if="isLoggedIn" /></v-col>
           </v-row>
         <Footer />
       </v-container>

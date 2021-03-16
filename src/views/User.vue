@@ -40,12 +40,11 @@
         ></v-text-field>
         <v-checkbox v-model="form.terms" color="green">
           <template v-slot:label>
-            I hereby confirm that I'm an employee of Groupomania and I want to
-            register in this social network.
+            I hereby confirm that all the informations I entered are true.
           </template>
         </v-checkbox>
         <v-card-actions>
-          <v-btn text @click="resetForm">
+          <v-btn text @click="goBack">
             Cancel
           </v-btn>
           <v-spacer></v-spacer>
@@ -54,7 +53,46 @@
           </v-btn>
         </v-card-actions>
       </v-form>
-      <v-btn @click="deleteUser">Delete Your Account</v-btn>
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="red lighten-2"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Delete Your Account
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Confirmation
+        </v-card-title>
+
+        <v-card-text>
+          I confirm that I want to delete my account, which will cancel my access to this network and delete all my posts and comments.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="deleteUser"
+          >
+            I accept
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
     </v-card>
 </template>
 
@@ -87,6 +125,7 @@ export default {
       conditions: false,
       terms: false,
       defaultForm,
+      dialog: false,
     };
   },
   computed: {
@@ -101,9 +140,8 @@ export default {
     },
   },
   methods: {
-    resetForm() {
-      this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
+    goBack() {
+      this.$router.push("/");
     },
     updateUser: function() {
       if (this.form.password === this.form.passwordCheck) {
@@ -113,7 +151,7 @@ export default {
         email: this.form.email,
         fonction: this.form.fonction,
         password: this.form.password,
-        userId: this.state.userId
+        userId: this.$store.state.userId
       };
       this.$store
         .dispatch("updateUser", data)
@@ -125,7 +163,7 @@ export default {
   },
   deleteUser: function() {
       let data = {
-          userId: this.state.userId
+          userId: this.$store.state.userId
       };
       this.$store.dispatch("deleteUser", data)
       .then(() => {

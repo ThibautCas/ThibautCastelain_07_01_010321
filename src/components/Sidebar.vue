@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-2 mt-4" height="250" width="250">
+  <v-card class="mx-2 mt-4" height="250" width="300">
     <v-navigation-drawer permanent width="100%">
       <v-row class="fill-height" no-gutters>
         <v-navigation-drawer
@@ -29,8 +29,8 @@
         </v-navigation-drawer>
         <v-list class="grow">
           <v-list-item>
-            {{ $store.state.firstName }}
-            {{ $store.state.lastName }}</v-list-item
+            {{ firstName }}
+            {{ lastName }}</v-list-item
           >
           <router-link to="/user">
             <v-btn
@@ -68,8 +68,6 @@
 export default {
   data() {
     return {
-      firstName: localStorage.firstName,
-      lastName: localStorage.lastName,
       fonction: localStorage.fonction,
       userId: localStorage.userId,
       mini: true,
@@ -79,6 +77,12 @@ export default {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
     },
+    firstName: function() {
+      return this.$store.state.firstName;
+    },
+    lastName: function() {
+      return this.$store.state.lastName;
+    }
   },
   methods: {
     user: function() {

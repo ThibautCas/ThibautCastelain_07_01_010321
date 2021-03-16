@@ -17,13 +17,20 @@ export default new Vuex.Store({
     auth_request(state) {
       state.status = "loading";
     },
-    auth_success(state, token, firstName, lastName, fonction, userId) {
+    auth_success(state, payload) {
       state.status = "success";
-      state.token = token;
-      state.firstName = firstName;
-      state.lastName = lastName;
-      state.fonction = fonction;
-      state.userId = userId
+      state.token = payload.token || state.token;
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+      state.fonction = payload.fonction;
+      state.userId = payload.id || state.userId;
+    },
+    update_success(state, payload) {
+      state.status = "success";
+      state.firstName = payload.firstName;
+      state.lastName = payload.lastName;
+      state.fonction = payload.fonction;
+      state.userId = payload.id || state.userId;
     },
     auth_error(state) {
       state.status = "error";
@@ -49,24 +56,20 @@ export default new Vuex.Store({
           method: "POST",
         })
           .then((resp) => {
-            const token = resp.data.token;
-            const firstName = resp.data.firstName;
-            const lastName = resp.data.lastName;
-            const fonction = resp.data.fonction;
-            const userId = resp.data.id;
-            localStorage.setItem("token", token);
-            localStorage.setItem("firstName", firstName);
-            localStorage.setItem("lastName", lastName);
-            localStorage.setItem("fonction", fonction);
-            localStorage.setItem("userId", userId);
-            axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, firstName, lastName, fonction, userId);
-            resolve(resp);
+            const payload = resp.data;
+            localStorage.setItem("token", payload.token);
+            localStorage.setItem("firstName", payload.firstName);
+            localStorage.setItem("lastName", payload.lastName);
+            localStorage.setItem("fonction", payload.fonction);
+            localStorage.setItem("userId", payload.id);
+            axios.defaults.headers.common["Authorization"] = payload.token;
+            commit("auth_success", payload);
+            return resolve(resp);
           })
           .catch((err) => {
             commit("auth_error");
             localStorage.removeItem("token");
-            reject(err);
+            return reject(err);
           });
       });
     },
@@ -79,55 +82,51 @@ export default new Vuex.Store({
           method: "POST",
         })
           .then((resp) => {
-            const token = resp.data.token;
-            const firstName = resp.data.firstName;
-            const lastName = resp.data.lastName;
-            const fonction = resp.data.fonction;
-            localStorage.setItem("token", token);
-            localStorage.setItem("firstName", firstName);
-            localStorage.setItem("lastName", lastName);
-            localStorage.setItem("fonction", fonction);
-            axios.defaults.headers.common["Authorization"] = token;
-            commit("auth_success", token, firstName, lastName, fonction);
-            resolve(resp);
+            const payload = resp.data;
+            localStorage.setItem("token", payload.token);
+            localStorage.setItem("firstName", payload.firstName);
+            localStorage.setItem("lastName", payload.lastName);
+            localStorage.setItem("fonction", payload.fonction);
+            localStorage.setItem("userId", payload.userId);
+            axios.defaults.headers.common["Authorization"] = payload.token;
+            commit("auth_success", payload);
+            return resolve(resp);
           })
           .catch((err) => {
             commit("auth_error", err);
             localStorage.removeItem("token");
-            reject(err);
+            return reject(err);
           });
       });
     },
     updateUser({ commit }, user) {
       return new Promise((resolve, reject) => {
-        commit("auth_success");
-        const userId = this.$store.data.userId;
+        const userId = localStorage.userId;
         axios({
           url: `http://localhost:3000/auth/user/${userId}/update`,
           data: user,
           method: "PUT",
         })
-          .then((resp) => {
-            const firstName = resp.data.firstName;
-            const lastName = resp.data.lastName;
-            const fonction = resp.data.fonction;
-            localStorage.setItem("firstName", firstName);
-            localStorage.setItem("lastName", lastName);
-            localStorage.setItem("fonction", fonction);
-            commit("auth_success", firstName, lastName, fonction);
-            resolve(resp);
-          })
-          .catch((err) => {
-            commit("auth_error", err);
-            localStorage.removeItem("token");
-            reject(err);
-          });
+        .then((resp) => {
+          const payload = resp.data;
+          localStorage.setItem("firstName", payload.firstName);
+          localStorage.setItem("lastName", payload.lastName);
+          localStorage.setItem("fonction", payload.fonction);
+          localStorage.setItem("userId", payload.userId);
+          commit("update_success", payload);
+          return resolve(resp);
+        })
+        .catch((err) => {
+          commit("auth_error");
+          localStorage.removeItem("token");
+          return reject(err);
+        })
       });
     },
     deleteUser({ commit }, user) {
       return new Promise ((resolve, reject) => {
         commit("logout");
-        const userId = this.$store.state.userId;
+        const userId = localStorage.userId;
         axios({
           url: `http://localhost:3000/auth/user/${userId}/delete`,
           data: user,
