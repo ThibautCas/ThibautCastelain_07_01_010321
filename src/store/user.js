@@ -97,7 +97,7 @@ export const user = {
       return new Promise((resolve, reject) => {
         const userId = localStorage.userId;
         axios({
-          url: `http://localhost:3000/auth/user/update/${userId}`,
+          url: `http://localhost:3000/api/auth/user/update/${userId}`,
           data: user,
           method: "PUT",
         })
@@ -122,7 +122,7 @@ export const user = {
         commit("logout");
         const userId = localStorage.userId;
         axios({
-          url: `http://localhost:3000/auth/user/delete/${userId}`,
+          url: `http://localhost:3000/api/auth/user/delete/${userId}`,
           data: user,
           method: "PUT",
         })
