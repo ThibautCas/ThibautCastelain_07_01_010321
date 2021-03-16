@@ -103,7 +103,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         const userId = localStorage.userId;
         axios({
-          url: `http://localhost:3000/auth/user/${userId}/update`,
+          url: `http://localhost:3000/auth/user/update/${userId}`,
           data: user,
           method: "PUT",
         })
@@ -128,7 +128,7 @@ export default new Vuex.Store({
         commit("logout");
         const userId = localStorage.userId;
         axios({
-          url: `http://localhost:3000/auth/user/${userId}/delete`,
+          url: `http://localhost:3000/auth/user/delete/${userId}`,
           data: user,
           method: "PUT",
         })
