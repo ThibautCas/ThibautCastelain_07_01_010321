@@ -6,6 +6,7 @@ import Login from '../components/Login.vue'
 import Secure from '../views/Secure.vue'
 import Register from '../components/Register.vue'
 import User from '../views/User.vue'
+import addPost from '../views/AddPost.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/user',
     name: 'user',
     component: User,
+  },
+  {
+    path: '/add-post',
+    name: 'addPost',
+    component: addPost
   },
   {
     path: '/secure',

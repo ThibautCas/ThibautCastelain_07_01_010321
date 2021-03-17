@@ -47,7 +47,7 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title>Add Post</v-list-item-title>
+            <v-btn @click="addPost">Add Post</v-btn>
           </v-list-item>
           <v-divider></v-divider>
           <v-btn
@@ -87,6 +87,9 @@ export default {
   methods: {
     user: function() {
       this.$router.push("/user");
+    },
+    addPost: function() {
+      this.$router.push("/add-post")
     },
     logout: function() {
       this.$store.dispatch("logout").then(() => {

@@ -79,7 +79,7 @@ export default {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
     },
-      login: function () {
+      login() {
         let email = this.form.email
         let password = this.form.password
         this.$store.dispatch('login', { email, password })
