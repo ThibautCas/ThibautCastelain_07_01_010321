@@ -82,6 +82,7 @@ export const user = {
             localStorage.setItem("lastName", payload.lastName);
             localStorage.setItem("fonction", payload.fonction);
             localStorage.setItem("userId", payload.userId);
+            localStorage.setItem("image", payload.image);
             axios.defaults.headers.common["Authorization"] = payload.token;
             commit("auth_success", payload);
             return resolve(resp);
@@ -95,11 +96,14 @@ export const user = {
     },
     updateUser({ commit }, user) {
       return new Promise((resolve, reject) => {
-        const userId = localStorage.userId;
+        let userId = localStorage.userId;
+        let token = localStorage.token;
+
         axios({
           url: `http://localhost:3000/api/auth/user/update/${userId}`,
           data: user,
           method: "PUT",
+          headers: { Authorization: "Bearer " + token },
         })
           .then((resp) => {
             const payload = resp.data;
@@ -119,14 +123,17 @@ export const user = {
     },
     deleteUser({ commit }, user) {
       return new Promise((resolve, reject) => {
-        commit("logout");
         const userId = localStorage.userId;
+        let token = localStorage.token;
+
         axios({
           url: `http://localhost:3000/api/auth/user/delete/${userId}`,
           data: user,
-          method: "PUT",
+          headers: { Authorization: "Bearer " + token },
+          method: "DELETE",
         })
           .then((resp) => {
+            commit("logout");
             localStorage.removeItem("token");
             localStorage.removeItem("firstName");
             localStorage.removeItem("lastName");

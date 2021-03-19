@@ -134,7 +134,7 @@ export default {
         password: this.form.password,
       };
       this.$store
-        .dispatch("user/register", data)
+        .dispatch("register", data)
         .then(() => {
           (this.snackbar = true),
           this.$router.push("/login");

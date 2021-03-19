@@ -8,13 +8,40 @@
         </v-list-item-title>
         <v-list-item-content>{{ post.text }}</v-list-item-content>
         <v-list-item-subtitle
-          >{{ post.User.firstName }}
-          {{ post.User.lastName }}</v-list-item-subtitle
+          >Posted by : {{ post.User.firstName }}
+          {{ post.User.lastName }} at {{ post.createdAt }}</v-list-item-subtitle
         >
         <v-divider></v-divider>
+  <v-row justify="center" class="my-4">
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="600px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Update Post
+        </v-btn>
+      </template>
+      <UpdatePost />
+    </v-dialog>
+  </v-row>
+        <v-btn
+            class="mx-3 my-2"
+            @click="deletePost"
+            color="error"
+            depressed
+            >Delete Post</v-btn
+          > 
+          <v-divider></v-divider>
         <v-card-actions>
           <v-list-item text>
-            Comment
+            <CommentDisplay />
           </v-list-item>
         </v-card-actions>
       </v-list-item-content>
@@ -26,12 +53,15 @@
 
 <script>
 import axios from "axios";
+import CommentDisplay from "./commentDisplay";
+import UpdatePost from "./UpdatePost";
 
 export default {
   name: "PostDisplay",
   data() {
     return {
       posts: localStorage.posts || "",
+       dialog: false,
     };
   },
   created() {
@@ -44,6 +74,25 @@ export default {
       })
       .then((response) => (this.posts = response.data));
     localStorage.setItem("posts", this.posts);
+  },
+  methods: {
+    deletePost: function() {
+      let data = {
+          id: this.post.id
+      };
+      this.$store.dispatch("deletePost", data)
+      .then(() => {
+          this.$router.push("/");
+      })
+      .catch((err) => console.log(err));
+  },
+  updatePost: function() {
+    
+  }
+  },
+  components: {
+    CommentDisplay,
+    UpdatePost
   },
 };
 </script>
