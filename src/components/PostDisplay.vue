@@ -7,7 +7,7 @@
           {{ post.title }}
         </v-list-item-title>
         <v-list-item-content>{{ post.text }}</v-list-item-content>
-        <v-list-item-subtitle
+        <v-list-item-subtitle v-if="post.User"
           >Posted by : {{ post.User.firstName }}
           {{ post.User.lastName }} at {{ post.createdAt }}</v-list-item-subtitle
         >
@@ -60,11 +60,11 @@ export default {
   name: "PostDisplay",
   data() {
     return {
-      posts: localStorage.posts || "",
+      posts: [],
        dialog: false,
     };
   },
-  created() {
+  beforeCreate() {
     let token = this.$store.state.user.token;
     axios
       .get(`http://localhost:3000/api/auth/post/`, {

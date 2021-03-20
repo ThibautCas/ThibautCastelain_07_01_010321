@@ -18,9 +18,15 @@
     ></v-textarea>
 
     <!--<v-file-input
-    accept="image/*"
-    label="File input"
-  ></v-file-input>-->
+        v-model="form.image"
+        chips
+        prepend-icon="mdi-camera"
+        accept="image/png, image/jpeg"
+        ref="image"
+        label="Profile picture"
+        @change="Preview_image"
+      ></v-file-input>
+      <v-img v-if="image" :src="url"></v-img>-->
 
     <v-checkbox
       v-model="checkbox"
@@ -80,7 +86,7 @@ import axios from 'axios';
         let data = {
             title: this.form.title,
             text: this.form.text || "",
-            image: this.image || ""
+            image: JSON.stringify(this.image) || ""
         };
         let token = this.$store.state.user.token;
         axios( {url: 'http://localhost:3000/api/auth/post',

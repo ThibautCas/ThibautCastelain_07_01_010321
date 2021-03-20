@@ -82,6 +82,9 @@ export default {
     },
     lastName: function() {
       return this.$store.state.user.lastName;
+    },
+    image: function () {
+      return this.$store.state.user.image;
     }
   },
   methods: {
