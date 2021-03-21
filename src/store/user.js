@@ -8,6 +8,7 @@ export const user = {
     lastName: localStorage.getItem("lastName") || "",
     fonction: localStorage.getItem("fonction") || "",
     userId: localStorage.getItem("userId") || "",
+    isAdmin: localStorage.getItem("isAdmin") || "",
   },
   mutations: {
     auth_request(state) {
@@ -20,6 +21,7 @@ export const user = {
       state.lastName = payload.lastName;
       state.fonction = payload.fonction;
       state.userId = payload.id || state.userId;
+      state.isAdmin = payload.isAdmin || state.isAdmin;
     },
     update_success(state, payload) {
       state.status = "success";
@@ -27,6 +29,7 @@ export const user = {
       state.lastName = payload.lastName;
       state.fonction = payload.fonction;
       state.userId = payload.id || state.userId;
+      state.isAdmin = payload.isAdmin || state.isAdmin;
     },
     auth_error(state) {
       state.status = "error";
@@ -38,6 +41,7 @@ export const user = {
       state.lastName = "";
       state.fonction = "";
       state.userId = "";
+      state.isAdmin = "";
     },
   },
   actions: {
@@ -56,6 +60,7 @@ export const user = {
             localStorage.setItem("lastName", payload.lastName);
             localStorage.setItem("fonction", payload.fonction);
             localStorage.setItem("userId", payload.id);
+            localStorage.setItem("isAdmin", payload.isAdmin);
             axios.defaults.headers.common["Authorization"] = payload.token;
             commit("auth_success", payload);
             return resolve(resp);
@@ -83,6 +88,7 @@ export const user = {
             localStorage.setItem("fonction", payload.fonction);
             localStorage.setItem("userId", payload.userId);
             localStorage.setItem("image", payload.image);
+            localStorage.setItem("isAdmin", payload.isAdmin);
             axios.defaults.headers.common["Authorization"] = payload.token;
             commit("auth_success", payload);
             return resolve(resp);
@@ -93,6 +99,27 @@ export const user = {
             return reject(err);
           });
       });
+    },
+    upgradeToAdmin(data) {
+      return new Promise((resolve, reject) => {
+        let token = localStorage.token;
+        let email = data.email;
+        axios({
+          url: `http://localhost:3000/api/auth/user/byEmail/${email}`,
+          method: "PUT",
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((resp) => {
+          const firstName = resp.data.firstName;
+          const lastName = resp.data.lastName;
+          alert(`${firstName} ${lastName} has been upgraded to Admin`);
+          return resolve(resp);
+        })
+        .catch((err) => {
+          alert(`User has not been found, impossible to upgrade`)
+          return reject(err);
+        });
+      })
     },
     updateUser({ commit }, user) {
       return new Promise((resolve, reject) => {
@@ -139,6 +166,7 @@ export const user = {
             localStorage.removeItem("lastName");
             localStorage.removeItem("fonction");
             localStorage.removeItem("userId");
+            localStorage.removeItem("isAdmin");
             delete axios.defaults.headers.common["Authorization"];
             resolve(resp);
           })
@@ -157,6 +185,7 @@ export const user = {
         localStorage.removeItem("lastName");
         localStorage.removeItem("fonction");
         localStorage.removeItem("userId");
+        localStorage.removeItem("isAdmin");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
       });
@@ -164,6 +193,7 @@ export const user = {
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
+    isAdmin: (state) => !!state.isAdmin,
     authStatus: (state) => state.status,
   },
 };

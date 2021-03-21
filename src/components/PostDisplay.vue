@@ -19,7 +19,7 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
+        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
           color="primary"
           dark
           v-bind="attrs"
@@ -31,7 +31,7 @@
       <UpdatePost />
     </v-dialog>
   </v-row>
-        <v-btn
+        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
             class="mx-3 my-2"
             @click="deletePost"
             color="error"
@@ -41,7 +41,7 @@
           <v-divider></v-divider>
         <v-card-actions>
           <v-list-item text>
-            <CommentDisplay />
+            <CommentDisplay postId/>
           </v-list-item>
         </v-card-actions>
       </v-list-item-content>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       posts: [],
-       dialog: false,
+      dialog: false,
     };
   },
   beforeCreate() {
@@ -74,6 +74,17 @@ export default {
       })
       .then((response) => (this.posts = response.data));
     localStorage.setItem("posts", this.posts);
+  },
+  computed: {
+    userId: function() {
+      return this.$store.state.user.userId;
+    },
+    isAdmin: function() {
+      return this.$store.state.user.isAdmin;
+    },
+    postId: function() {
+      return this.post.id;
+    }
   },
   methods: {
     deletePost: function() {

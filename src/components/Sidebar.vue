@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-2 my-4" height="250" width="300">
+  <v-card class="mx-2 my-4" height="300" width="300">
     <v-navigation-drawer permanent width="100%">
       <v-row class="fill-height" no-gutters>
         <v-navigation-drawer
@@ -47,11 +47,46 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
           <v-list-item>
-            <v-btn @click="addPost">Add Post</v-btn>
+            <v-btn class="mb-1" @click="addPost">Add Post</v-btn>
+          </v-list-item>
+          <v-list-item v-if="isAdmin">
+            <v-dialog v-model="dialog" persistent max-width="290">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Admin mode
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">
+                  Who do you want to upgrade to Admin ?
+                </v-card-title>
+                <v-text-field
+                  v-model="form.email"
+                  :rules="[rules.email]"
+                  color="blue darken-2"
+                  label="Email"
+                  required
+                ></v-text-field>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="red darken-1" text @click="dialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="green darken-1" text @click="upgradeToAdmin">
+                    Confirm
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-list-item>
           <v-divider></v-divider>
           <v-btn
-            class="mx-3 mt-2"
+            class="mx-4 my-4"
             v-if="isLoggedIn"
             @click="logout"
             color="error"
@@ -67,10 +102,29 @@
 <script>
 export default {
   data() {
+    const defaultForm = Object.freeze({
+      firstName: "",
+      lastName: "",
+      image: "",
+      url: "",
+      email: "",
+      fonction: "",
+      password: "",
+      terms: false,
+    });
     return {
+      form: Object.assign({}, defaultForm),
+      rules: {
+        email: (v) =>
+          !!(v || "").match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          ) || "Please enter a valid email",
+      },
+      defaultForm,
       fonction: localStorage.fonction,
       userId: localStorage.userId,
       mini: true,
+      dialog: false,
     };
   },
   computed: {
@@ -83,23 +137,34 @@ export default {
     lastName: function() {
       return this.$store.state.user.lastName;
     },
-    image: function () {
+    image: function() {
       return this.$store.state.user.image;
-    }
+    },
+    isAdmin: function() {
+      return this.$store.getters.isAdmin;
+    },
   },
   methods: {
     user: function() {
       this.$router.push("/user");
     },
     addPost: function() {
-      this.$router.push("/add-post")
+      this.$router.push("/add-post");
     },
     logout: function() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login");
       });
     },
-  },
-  
+    upgradeToAdmin: function() {
+      let data = { email: this.form.email };
+      this.$store
+          .dispatch("upgradeToAdmin", data)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch((err) => console.log(err));
+      } 
+    },
 };
 </script>

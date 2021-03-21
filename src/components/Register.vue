@@ -147,7 +147,7 @@ export default {
         let data = {
           firstName: this.form.firstName,
           lastName: this.form.lastName,
-          image: JSON.stringify(this.form.image) || "",
+          image: this.form.image.files[0] || "",
           email: this.form.email,
           fonction: this.form.fonction,
           password: this.form.password,

@@ -15,14 +15,18 @@ export default {
     name: "CommentDisplay",
   created() {
     let token = this.$store.state.user.token;
-    let data = this.$parent.post.id;
     axios
-      .get(`http://localhost:3000/api/auth/comment/${data}`, {
+      .get(`http://localhost:3000/api/auth/comment/{{ postId }}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
       .then((response) => (this.comments = response.data));
   },
+  computed: {
+    postId: function() {
+      return this.$parent.postId
+    }
+  }
 };
 </script>

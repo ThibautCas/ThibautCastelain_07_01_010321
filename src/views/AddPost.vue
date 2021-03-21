@@ -17,16 +17,16 @@
       label="Text"
     ></v-textarea>
 
-    <!--<v-file-input
+    <v-file-input
         v-model="form.image"
         chips
         prepend-icon="mdi-camera"
-        accept="image/png, image/jpeg"
+        accept="image/png, image/jpeg, image/gif"
         ref="image"
-        label="Profile picture"
+        label="Submit your image"
         @change="Preview_image"
       ></v-file-input>
-      <v-img v-if="image" :src="url"></v-img>-->
+      <v-img v-if="image" :src="url"></v-img>
 
     <v-checkbox
       v-model="checkbox"
@@ -71,7 +71,7 @@ import axios from 'axios';
         form: {
             title: "",
             text: "",
-            //image: ""
+            image: ""
         },
         rules: {
             required: (v) => !!v || "Field is required",
@@ -86,8 +86,9 @@ import axios from 'axios';
         let data = {
             title: this.form.title,
             text: this.form.text || "",
-            image: JSON.stringify(this.image) || ""
+            image: this.form.image.files[0],
         };
+        console.log(data)
         let token = this.$store.state.user.token;
         axios( {url: 'http://localhost:3000/api/auth/post',
                     method: 'POST',
