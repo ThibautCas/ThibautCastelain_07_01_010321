@@ -100,19 +100,20 @@ export const user = {
           });
       });
     },
-    upgradeToAdmin(data) {
+    upgradeToAdmin({ commit }, payload) {
       return new Promise((resolve, reject) => {
         let token = localStorage.token;
-        let email = data.email;
         axios({
-          url: `http://localhost:3000/api/auth/user/byEmail/${email}`,
+          url: `http://localhost:3000/api/auth/user/byEmail/`,
           method: "PUT",
           headers: { Authorization: "Bearer " + token },
+          params: {email: payload.email},
         })
         .then((resp) => {
           const firstName = resp.data.firstName;
           const lastName = resp.data.lastName;
           alert(`${firstName} ${lastName} has been upgraded to Admin`);
+          commit("update_success", payload);
           return resolve(resp);
         })
         .catch((err) => {

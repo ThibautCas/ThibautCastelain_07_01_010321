@@ -49,10 +49,10 @@
           <v-list-item>
             <v-btn class="mb-1" @click="addPost">Add Post</v-btn>
           </v-list-item>
-          <v-list-item v-if="isAdmin">
+          <v-list-item>
             <v-dialog v-model="dialog" persistent max-width="290">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
+                <v-btn v-if="isAdmin"
                   color="primary"
                   dark
                   v-bind="attrs"
@@ -103,14 +103,7 @@
 export default {
   data() {
     const defaultForm = Object.freeze({
-      firstName: "",
-      lastName: "",
-      image: "",
-      url: "",
       email: "",
-      fonction: "",
-      password: "",
-      terms: false,
     });
     return {
       form: Object.assign({}, defaultForm),
@@ -157,9 +150,9 @@ export default {
       });
     },
     upgradeToAdmin: function() {
-      let data = { email: this.form.email };
+      let payload = { email: this.form.email };
       this.$store
-          .dispatch("upgradeToAdmin", data)
+          .dispatch("upgradeToAdmin", payload)
           .then(() => {
             this.$router.push("/");
           })
