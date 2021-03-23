@@ -15,6 +15,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="First name"
+        value="Leonard"
         required
         autofocus
       ></v-text-field>
@@ -23,6 +24,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="Last name"
+        value="Hofstader"
         required
       ></v-text-field>
       <v-text-field
@@ -30,6 +32,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="Function in the Company"
+        value="Scientist"
         required
       ></v-text-field>
       <v-file-input
@@ -47,6 +50,7 @@
         :rules="[rules.email]"
         color="blue darken-2"
         label="Email"
+        value="7mail@mail.com"
         required
       ></v-text-field>
       <v-text-field
@@ -55,6 +59,7 @@
         color="blue darken-2"
         label="Password"
         type="password"
+        value="12345678Az@"
       ></v-text-field>
       <v-text-field
         v-model="form.passwordCheck"
@@ -62,6 +67,7 @@
         color="blue darken-2"
         label="Retype your password"
         type="password"
+        value="12345678Az@"
       ></v-text-field>
       <v-checkbox v-model="form.terms" color="green">
         <template v-slot:label>
@@ -147,7 +153,7 @@ export default {
         let data = {
           firstName: this.form.firstName,
           lastName: this.form.lastName,
-          image: this.form.image.files[0] || "",
+          image: this.form.image,
           email: this.form.email,
           fonction: this.form.fonction,
           password: this.form.password,

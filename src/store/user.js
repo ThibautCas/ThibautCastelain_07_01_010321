@@ -73,12 +73,20 @@ export const user = {
       });
     },
     register({ commit }, user) {
+      let form = new FormData();
+      form.append("file", user.image);
+      form.append("firstName", user.firstName);
+      form.append("lastName", user.lastName);
+      form.append("email", user.email);
+      form.append("fonction", user.fonction);
+      form.append("password", user.password);
+
       return new Promise((resolve, reject) => {
         commit("auth_request");
-        axios({
-          url: "http://localhost:3000/api/signup",
-          data: user,
-          method: "POST",
+        axios.post("http://localhost:3000/api/signup", form, {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
         })
           .then((resp) => {
             const payload = resp.data;

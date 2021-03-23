@@ -9,7 +9,7 @@
 
     <v-textarea autoGrow v-model="form.text" label="Text"></v-textarea>
 
-   <!-- <v-file-input
+   <v-file-input
       v-model="form.image"
       chips
       prepend-icon="mdi-camera"
@@ -18,7 +18,7 @@
       label="Submit your image"
       @change="Preview_image"
     ></v-file-input>
-    <v-img v-if="image" :src="url"></v-img>  -->
+    <v-img v-if="image" :src="url"></v-img> 
 
     <v-checkbox
       v-model="checkbox"
@@ -59,19 +59,20 @@ export default {
     select: null,
     checkbox: false,
   }),
-  /*computed: {
+  computed: {
     image: function() {
       return this.form.image.file || "";
     },
-  },*/
+  },
   methods: {
     validate() {
       let data = {
         title: this.form.title,
         text: this.form.text || "",
-        //image: this.form.image.file || "",
+        image: this.form.image.file || "",
       };
       let token = this.$store.state.user.token;
+      
       axios({
         url: "http://localhost:3000/api/auth/post",
         method: "POST",

@@ -7,7 +7,7 @@
           {{ post.title }}
         </v-list-item-title>
         <v-list-item-content>{{ post.text }}</v-list-item-content>
-        <v-list-item-subtitle v-if="post.User"
+        <v-list-item-subtitle 
           >Posted by : {{ post.User.firstName }}
           {{ post.User.lastName }} at {{ post.createdAt }}</v-list-item-subtitle
         >
@@ -41,7 +41,7 @@
           <v-divider></v-divider>
         <v-card-actions>
           <v-list-item text>
-            <CommentDisplay postId/>
+            <CommentDisplay :postId="post.id"/>
           </v-list-item>
         </v-card-actions>
       </v-list-item-content>
