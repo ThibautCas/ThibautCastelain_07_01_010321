@@ -83,10 +83,10 @@ export const user = {
 
       return new Promise((resolve, reject) => {
         commit("auth_request");
-        axios.post("http://localhost:3000/api/signup", form, {
+        axios.post("http://localhost:3000/api/signup", {
           headers: {
             "content-type": "multipart/form-data"
-          }
+          }, form,
         })
           .then((resp) => {
             const payload = resp.data;
@@ -131,15 +131,21 @@ export const user = {
       })
     },
     updateUser({ commit }, user) {
+      let form = new FormData();
+      form.append("file", user.image);
+      form.append("firstName", user.firstName);
+      form.append("lastName", user.lastName);
+      form.append("fonction", user.fonction);
+      form.append("password", user.password);
+      let userId = localStorage.userId;
       return new Promise((resolve, reject) => {
-        let userId = localStorage.userId;
         let token = localStorage.token;
-
-        axios({
-          url: `http://localhost:3000/api/auth/user/update/${userId}`,
-          data: user,
-          method: "PUT",
-          headers: { Authorization: "Bearer " + token },
+        axios.put(`http://localhost:3000/api/auth/user/update/${userId}`, {
+          headers: {
+            "content-type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+          data: form,
         })
           .then((resp) => {
             const payload = resp.data;

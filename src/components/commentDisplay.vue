@@ -28,9 +28,17 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+        <v-card-title >New Comment</v-card-title>
+        <v-divider></v-divider>
+        <v-textarea
+          v-model="newComment"
+          solo
+          name="comment"
+          label="Your Comment ..."
+        ></v-textarea>
         <v-card-actions>
           <v-spacer></v-spacer>
+
           <v-btn
             color="green darken-1"
             text
@@ -41,7 +49,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="addComment"
           >
             Post Comment
           </v-btn>
@@ -63,7 +71,9 @@ export default {
       }
     },
     data() {
+      
       return {
+      newComment: "",
       comments: [],
       dialog: false,
       }
@@ -79,5 +89,24 @@ export default {
       })
       .then((response) => (this.comments = response.data));
   },
+  methods: {
+    addComment: function() {
+      let token = this.$store.state.user.token;
+      let comment = {
+        post: this.postId,
+        text: this.newComment};
+       axios.post(`http://localhost:3000/api/auth/comment/`, {
+        data: comment,
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        
+        })
+      .then(() => {
+          this.$router.push("/");
+      })
+      .catch((err) => console.log(err));
+    }
+  }
 };
 </script>

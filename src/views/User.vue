@@ -24,12 +24,23 @@
         label="Function in the Company"
         required
       ></v-text-field>
-      <v-text-field
+      <v-file-input
+        v-model="form.image"
+        chips
+        prepend-icon="mdi-camera"
+        accept="image/png, image/jpeg"
+        ref="image"
+        label="Profile picture"
+        @change="Preview_image"
+      ></v-file-input>
+      <v-img v-if="form.image" :src="url"></v-img>
+       <v-text-field
         v-model="form.password"
         :rules="[rules.password, rules.length(8)]"
         color="blue darken-2"
         label="Password"
         type="password"
+        value="12345678Az@"
       ></v-text-field>
       <v-text-field
         v-model="form.passwordCheck"
@@ -93,6 +104,7 @@ export default {
     const defaultForm = Object.freeze({
       firstName: this.$store.state.user.firstName || "",
       lastName: this.$store.state.user.lastName || "",
+      image: {},
       email: this.$store.state.user.email || "",
       fonction: this.$store.state.user.fonction || "",
       password: "",
@@ -116,6 +128,7 @@ export default {
       terms: false,
       defaultForm,
       dialog: false,
+      url: "",
     };
   },
   computed: {
@@ -133,11 +146,15 @@ export default {
     goBack() {
       this.$router.push("/");
     },
+    Preview_image() {
+      this.url= (URL.createObjectURL(this.form.image) || "");
+    },
     updateUser: function() {
       if (this.form.password === this.form.passwordCheck) {
         let data = {
           firstName: this.form.firstName,
           lastName: this.form.lastName,
+          image: this.form.image,
           email: this.form.email,
           fonction: this.form.fonction,
           password: this.form.password,

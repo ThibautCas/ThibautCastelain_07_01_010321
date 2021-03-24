@@ -18,7 +18,7 @@
       label="Submit your image"
       @change="Preview_image"
     ></v-file-input>
-    <v-img v-if="image" :src="url"></v-img> 
+    <v-img v-if="form.image" :src="url"></v-img> 
 
     <v-checkbox
       v-model="checkbox"
@@ -58,10 +58,11 @@ export default {
     valid: false,
     select: null,
     checkbox: false,
+    url: "",
   }),
   computed: {
     image: function() {
-      return this.form.image.file || "";
+      return this.form.image || "";
     },
   },
   methods: {
@@ -69,7 +70,7 @@ export default {
       let data = {
         title: this.form.title,
         text: this.form.text || "",
-        image: this.form.image.file || "",
+        image: this.form.image || "",
       };
       let token = this.$store.state.user.token;
       

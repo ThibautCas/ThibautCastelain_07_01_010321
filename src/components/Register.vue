@@ -15,7 +15,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="First name"
-        value="Leonard"
+        postholder="Leonard"
         required
         autofocus
       ></v-text-field>
@@ -24,7 +24,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="Last name"
-        value="Hofstader"
+        postholder="Hofstader"
         required
       ></v-text-field>
       <v-text-field
@@ -32,7 +32,7 @@
         :rules="[rules.required]"
         color="blue darken-2"
         label="Function in the Company"
-        value="Scientist"
+        postholder="Scientist"
         required
       ></v-text-field>
       <v-file-input
@@ -44,13 +44,13 @@
         label="Profile picture"
         @change="Preview_image"
       ></v-file-input>
-      <v-img v-if="image" :src="url"></v-img>
+      <v-img v-if="form.image" :src="url"></v-img>
       <v-text-field
         v-model="form.email"
         :rules="[rules.email]"
         color="blue darken-2"
         label="Email"
-        value="7mail@mail.com"
+        postholder="7mail@mail.com"
         required
       ></v-text-field>
       <v-text-field
@@ -59,7 +59,7 @@
         color="blue darken-2"
         label="Password"
         type="password"
-        value="12345678Az@"
+        postholder="12345678Az@"
       ></v-text-field>
       <v-text-field
         v-model="form.passwordCheck"
@@ -67,7 +67,7 @@
         color="blue darken-2"
         label="Retype your password"
         type="password"
-        value="12345678Az@"
+        postholder="12345678Az@"
       ></v-text-field>
       <v-checkbox v-model="form.terms" color="green">
         <template v-slot:label>
@@ -77,6 +77,10 @@
       </v-checkbox>
       <v-card-actions>
         <v-btn text @click="resetForm">
+          Reset Form
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn text @click="goBack">
           Cancel
         </v-btn>
         <v-spacer></v-spacer>
@@ -95,8 +99,7 @@ export default {
     const defaultForm = Object.freeze({
       firstName: "",
       lastName: "",
-      image: "",
-      url: "",
+      image: {},
       email: "",
       fonction: "",
       password: "",
@@ -123,6 +126,7 @@ export default {
       snackbar: false,
       terms: false,
       defaultForm,
+      url: "",
     };
   },
   computed: {
@@ -138,15 +142,18 @@ export default {
     },
     image() {
       return this.form.image
-    }
+    }, 
   },
   methods: {
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
     },
+    goBack() {
+      this.$router.push("/");
+    },
     Preview_image() {
-      this.url= URL.createObjectURL(this.form.image) || ""
+      this.url = (URL.createObjectURL(this.form.image) || "");
     },
     register: function() {
       if (this.form.password === this.form.passwordCheck) {

@@ -28,6 +28,6 @@ export const post = {
               Authorization: `Bearer ${this.$state.user.token}`,
             },
           })
-    }
+    },
   },
 };
