@@ -34,6 +34,9 @@ export const user = {
     auth_error(state) {
       state.status = "error";
     },
+    update_error(state) {
+      state.status = "error";
+    },
     logout(state) {
       state.status = "";
       state.token = "";
@@ -102,23 +105,22 @@ export const user = {
       });
     },
     upgradeToAdmin({ commit }, payload) {
+      let emailToUpgrade = payload.email;
       return new Promise((resolve, reject) => {
         let token = localStorage.token;
         axios({
           url: `http://localhost:3000/api/auth/user/byEmail/`,
           method: "PUT",
           headers: { Authorization: "Bearer " + token },
-          params: {email: payload.email},
+          data: {email: payload.email},
         })
         .then((resp) => {
-          const firstName = resp.data.firstName;
-          const lastName = resp.data.lastName;
-          alert(`${firstName} ${lastName} has been upgraded to Admin`);
-          commit("update_success", payload);
+          alert(`${emailToUpgrade} has been upgraded to Admin`);
           return resolve(resp);
         })
         .catch((err) => {
-          alert(`User has not been found, impossible to upgrade`)
+          alert(`User has not been found, impossible to upgrade`);
+          commit("update_error");
           return reject(err);
         });
       })

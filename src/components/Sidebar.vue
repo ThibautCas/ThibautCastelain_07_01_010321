@@ -154,7 +154,7 @@ export default {
       this.$store
           .dispatch("upgradeToAdmin", payload)
           .then(() => {
-            this.$router.push("/");
+            this.dialog = false;
           })
           .catch((err) => console.log(err));
       } 
