@@ -92,10 +92,12 @@ export default {
   methods: {
     addComment: function() {
       let token = this.$store.state.user.token;
+      let userId = this.$store.state.user.userId;
       let comment = {
         post: this.postId,
-        text: this.newComment};
-       axios.post(`http://localhost:3000/api/auth/comment/`, {
+        text: this.newComment,
+        userId: userId};
+       axios.post(`http://localhost:3000/api/auth/comment`, {
         data: comment,
         headers: {
           Authorization: "Bearer " + token,

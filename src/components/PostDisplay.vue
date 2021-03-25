@@ -31,7 +31,7 @@
       <UpdatePost />
     </v-dialog>
   </v-row>
-        <v-btn v-if="(userId === `{{ post.userId }}`) || isAdmin"
+        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
             class="mx-3 my-2"
             @click="deletePost"
             color="error"

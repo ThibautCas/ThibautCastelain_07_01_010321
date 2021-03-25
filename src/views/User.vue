@@ -105,7 +105,6 @@ export default {
       firstName: this.$store.state.user.firstName || "",
       lastName: this.$store.state.user.lastName || "",
       image: {},
-      email: this.$store.state.user.email || "",
       fonction: this.$store.state.user.fonction || "",
       password: "",
       userId: this.$store.state.user.userId || "",
@@ -155,10 +154,9 @@ export default {
           firstName: this.form.firstName,
           lastName: this.form.lastName,
           image: this.form.image,
-          email: this.form.email,
           fonction: this.form.fonction,
           password: this.form.password,
-          userId: this.$store.state.userId,
+          userId: localStorage.userId,
         };
         this.$store
           .dispatch("updateUser", data)

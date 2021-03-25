@@ -73,20 +73,13 @@ export const user = {
       });
     },
     register({ commit }, user) {
-      let form = new FormData();
-      form.append("file", user.image);
-      form.append("firstName", user.firstName);
-      form.append("lastName", user.lastName);
-      form.append("email", user.email);
-      form.append("fonction", user.fonction);
-      form.append("password", user.password);
 
       return new Promise((resolve, reject) => {
         commit("auth_request");
         axios.post("http://localhost:3000/api/signup", {
           headers: {
             "content-type": "multipart/form-data"
-          }, form,
+          }, data: user,
         })
           .then((resp) => {
             const payload = resp.data;
@@ -131,12 +124,6 @@ export const user = {
       })
     },
     updateUser({ commit }, user) {
-      let form = new FormData();
-      form.append("file", user.image);
-      form.append("firstName", user.firstName);
-      form.append("lastName", user.lastName);
-      form.append("fonction", user.fonction);
-      form.append("password", user.password);
       let userId = localStorage.userId;
       return new Promise((resolve, reject) => {
         let token = localStorage.token;
@@ -144,8 +131,7 @@ export const user = {
           headers: {
             "content-type": "multipart/form-data",
             Authorization: "Bearer " + token,
-          },
-          data: form,
+          }, data: user, userId
         })
           .then((resp) => {
             const payload = resp.data;
