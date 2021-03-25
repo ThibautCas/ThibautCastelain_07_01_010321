@@ -19,14 +19,13 @@ export const post = {
           console.log(err);
         });
     },
-    deletePost(id) {
+    deletePost(payload) {
+      let token = localStorage.token;
         axios({
             url: "http://localhost:3000/api/auth/post/",
             method: "DELETE",
-            params: {id: id},
-            headers: {
-              Authorization: `Bearer ${this.$state.user.token}`,
-            },
+            params: {id: payload.id},
+            headers: { Authorization: "Bearer " + token },
           })
     },
   },

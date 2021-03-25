@@ -33,7 +33,7 @@
   </v-row>
         <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
             class="mx-3 my-2"
-            @click="deletePost"
+            @click="deletePost(post.id)"
             color="error"
             depressed
             >Delete Post</v-btn
@@ -87,13 +87,16 @@ export default {
     }
   },
   methods: {
-    deletePost: function() {
-      let data = {
-          id: this.post.id
-      };
-      this.$store.dispatch("deletePost", data)
+    deletePost: function(postId) {
+      let token = localStorage.token;
+        axios({
+            url: `http://localhost:3000/api/auth/post/delete/${postId}`,
+            method: "DELETE",
+            
+            headers: { Authorization: "Bearer " + token },
+          })
       .then(() => {
-          this.$router.push("/");
+         window.location.reload();
       })
       .catch((err) => console.log(err));
   },
