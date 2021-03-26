@@ -14,11 +14,10 @@
       chips
       prepend-icon="mdi-camera"
       accept="image/png, image/jpeg, image/gif"
-      ref="image"
       label="Submit your image"
       @change="Preview_image"
     ></v-file-input>
-    <v-img v-if="form.image" :src="url"></v-img> 
+    <v-img v-if="form.image" :src="url"></v-img>
 
     <v-checkbox
       v-model="checkbox"
@@ -50,7 +49,7 @@ export default {
     form: {
       title: "",
       text: "",
-      image: "",
+      image: {},
     },
     rules: {
       required: (v) => !!v || "Field is required",
@@ -83,7 +82,6 @@ export default {
         },
       })
         .then((response) => {
-          this.post.id = response.data.id;
           console.log(response.data);
         })
         .catch((err) => {

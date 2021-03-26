@@ -19,7 +19,7 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
+        <v-btn v-if="userId === `{{ post.userId }}`"
           color="primary"
           dark
           v-bind="attrs"
@@ -84,7 +84,7 @@ export default {
     },
     postId: function() {
       return this.post.id;
-    }
+    },
   },
   methods: {
     deletePost: function(postId) {

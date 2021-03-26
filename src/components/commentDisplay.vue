@@ -98,11 +98,10 @@ export default {
         text: this.newComment,
         userId: userId};
        axios.post(`http://localhost:3000/api/auth/comment`, {
-        data: comment,
         headers: {
           Authorization: "Bearer " + token,
         },
-        
+        data: comment,
         })
       .then(() => {
           this.$router.push("/");
