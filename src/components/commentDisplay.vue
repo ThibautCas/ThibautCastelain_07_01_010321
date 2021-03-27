@@ -94,17 +94,19 @@ export default {
       let token = this.$store.state.user.token;
       let userId = this.$store.state.user.userId;
       let comment = {
-        post: this.postId,
+        postId: this.postId,
         text: this.newComment,
         userId: userId};
-       axios.post(`http://localhost:3000/api/auth/comment`, {
+       axios({
+        url: "http://localhost:3000/api/auth/comment",
+        method: "POST",
+        data: comment,
         headers: {
           Authorization: "Bearer " + token,
         },
-        data: comment,
-        })
+      })
       .then(() => {
-          this.$router.push("/");
+          window.location.reload();
       })
       .catch((err) => console.log(err));
     }
