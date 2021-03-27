@@ -50,7 +50,15 @@
 
 <script>
 
+import axios from 'axios';
+
   export default {
+    name: "UpdatePost",
+    props: {
+      postId: {
+        type: Number,
+      }
+    },
     data: () => ({
         form: {
             title: this.post.title || "",
@@ -64,7 +72,17 @@
       select: null,
       checkbox: false,
     }),
+    created() {
+    let token = this.$store.state.user.token;
 
+    axios
+      .get(`http://localhost:3000/api/auth/post/${this.postId}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => (this.post = response.data));
+  },
     methods: {
         updatePost: function() {
       let data = {

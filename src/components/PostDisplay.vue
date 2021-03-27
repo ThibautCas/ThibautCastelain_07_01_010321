@@ -19,7 +19,7 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="userId === `{{ post.userId }}`"
+        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
           color="primary"
           dark
           v-bind="attrs"
@@ -28,7 +28,7 @@
           Update Post
         </v-btn>
       </template>
-      <UpdatePost />
+      <UpdatePost :postId="post.id"/>
     </v-dialog>
   </v-row>
         <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"

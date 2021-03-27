@@ -8,7 +8,7 @@ export const user = {
     lastName: localStorage.getItem("lastName") || "",
     fonction: localStorage.getItem("fonction") || "",
     userId: localStorage.getItem("userId") || "",
-    isAdmin: localStorage.getItem("isAdmin") || "",
+    isAdmin: localStorage.getItem("isAdmin"),
   },
   mutations: {
     auth_request(state) {
@@ -196,7 +196,7 @@ export const user = {
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
-    isAdmin: (state) => !!state.isAdmin,
+    isAdmin: (state) => state.isAdmin,
     authStatus: (state) => state.status,
   },
 };
