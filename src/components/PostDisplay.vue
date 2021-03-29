@@ -19,7 +19,7 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
+        <v-btn v-if="userId == post.userId || isAdmin"
           @click="updatePost(post.id)"
           color="primary"
           dark
@@ -31,7 +31,7 @@
       </template>
     </v-dialog>
   </v-row>
-        <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
+        <v-btn v-if="userId == post.userId || isAdmin"
             class="mx-3 my-2"
             @click="deletePost(post.id)"
             color="error"
@@ -79,7 +79,7 @@ export default {
       return this.$store.state.user.userId;
     },
     isAdmin: function() {
-      return this.$store.state.user.isAdmin;
+      return this.$store.getters.isAdmin;
     },
     postId: function() {
       return this.post.id;

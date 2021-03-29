@@ -21,7 +21,7 @@
       required
     ></v-checkbox>
     <div class="text-center">
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
+      <v-btn :disabled="!valid" color="success" class="mr-4" @click="updatePost">
         Validate
       </v-btn>
 
@@ -39,8 +39,8 @@ export default {
   name: "UpdatePost",
   data: () => ({
     form: {
-      title: this.post.title || "",
-      text: this.post.text || "",
+      title: "",
+      text: "",
       //image: this.post.image || ""
     },
     rules: {
@@ -60,7 +60,10 @@ export default {
           Authorization: "Bearer " + token,
         },
       })
-      .then((response) => (this.post = response.data));
+      .then((response) => {
+        this.form.title = response.data.title;
+        this.form.text = response.data.text;
+        });
   },
   methods: {
     updatePost: function() {

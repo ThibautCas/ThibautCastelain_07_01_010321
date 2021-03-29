@@ -196,7 +196,9 @@ export const user = {
   },
   getters: {
     isLoggedIn: (state) => !!state.token,
-    isAdmin: (state) => state.isAdmin,
+    isAdmin: (state) => {
+      return state.isAdmin === "true";
+     },
     authStatus: (state) => state.status,
   },
 };
