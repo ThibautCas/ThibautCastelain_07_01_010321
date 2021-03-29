@@ -20,6 +20,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
+          @click="updatePost(post.id)"
           color="primary"
           dark
           v-bind="attrs"
@@ -28,7 +29,6 @@
           Update Post
         </v-btn>
       </template>
-      <UpdatePost :postId="post.id"/>
     </v-dialog>
   </v-row>
         <v-btn v-if="userId === `{{ post.userId }}` || isAdmin"
@@ -54,7 +54,6 @@
 <script>
 import axios from "axios";
 import CommentDisplay from "./commentDisplay";
-import UpdatePost from "./UpdatePost";
 
 export default {
   name: "PostDisplay",
@@ -87,6 +86,10 @@ export default {
     },
   },
   methods: {
+    updatePost: function(postId) {
+      localStorage.setItem("postId", postId);
+      this.$router.push("/update-post");
+    },
     deletePost: function(postId) {
       let token = localStorage.token;
         axios({
@@ -100,13 +103,10 @@ export default {
       })
       .catch((err) => console.log(err));
   },
-  updatePost: function() {
-    
-  }
+  
   },
   components: {
     CommentDisplay,
-    UpdatePost
   },
 };
 </script>

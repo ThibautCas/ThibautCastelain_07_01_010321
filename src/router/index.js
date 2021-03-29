@@ -7,6 +7,7 @@ import Secure from '../views/Secure.vue'
 import Register from '../components/Register.vue'
 import User from '../views/User.vue'
 import addPost from '../views/AddPost.vue'
+import updatePost from '../views/UpdatePost.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/add-post',
     name: 'addPost',
     component: addPost
+  },
+  {
+    path: '/update-post',
+    name: 'updatePost',
+    component: updatePost
   },
   {
     path: '/secure',
