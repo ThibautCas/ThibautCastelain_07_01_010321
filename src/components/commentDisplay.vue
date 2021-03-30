@@ -8,6 +8,13 @@
           >Posted by : {{ comment.User.firstName }}
           {{ comment.User.lastName }} at {{ comment.createdAt }}</v-list-item-subtitle
         >  -->
+        <v-chip v-if="userId == comment.userId || isAdmin"
+            class="mx-3 my-2"
+            @click="deleteComment(comment.id)"
+            color="error"
+            depressed
+            >Delete Comment</v-chip
+          > 
         <v-divider></v-divider>
     </v-list>
       <v-divider></v-divider>
@@ -80,7 +87,6 @@ export default {
     },
   created() {
     let token = this.$store.state.user.token;
-
     axios
       .get(`http://localhost:3000/api/auth/comment/${this.postId}`, {
         headers: {
@@ -89,6 +95,14 @@ export default {
       })
       .then((response) => (this.comments = response.data));
   },
+  computed: {
+    userId: function() {
+      return this.$store.state.user.userId;
+    },
+    isAdmin: function() {
+      return this.$store.getters.isAdmin;
+    }
+  },
   methods: {
     addComment: function() {
       let token = this.$store.state.user.token;
@@ -96,7 +110,7 @@ export default {
       let comment = {
         postId: this.postId,
         text: this.newComment,
-        userId: userId};
+        user: userId};
        axios({
         url: "http://localhost:3000/api/auth/comment",
         method: "POST",
@@ -107,6 +121,18 @@ export default {
       })
       .then(() => {
           window.location.reload();
+      })
+      .catch((err) => console.log(err));
+    },
+    deleteComment: function(commentId) {
+      let token = localStorage.token;
+        axios({
+            url: `http://localhost:3000/api/auth/post/delete/${commentId}`,
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+          })
+      .then(() => {
+         window.location.reload();
       })
       .catch((err) => console.log(err));
     }

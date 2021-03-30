@@ -19,7 +19,7 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="userId == post.userId || isAdmin"
+        <v-btn v-if="userId == post.userId"
           @click="updatePost(post.id)"
           color="primary"
           dark
@@ -38,7 +38,9 @@
             depressed
             >Delete Post</v-btn
           > 
-          <v-divider></v-divider>
+          <v-divider
+          v-if="userId == post.userId || isAdmin"
+          ></v-divider>
         <v-card-actions>
           <v-list-item text>
             <CommentDisplay :postId="post.id"/>

@@ -74,10 +74,13 @@ export default {
       };
       let postId = localStorage.postId;
         let token = localStorage.token;
-        axios.put(`http://localhost:3000/api/auth/post/update/${postId}`, {
+        axios({
+          url: `http://localhost:3000/api/auth/post/update/${postId}`, 
+          method: "PUT",
+          data: data,
           headers: {
             Authorization: "Bearer " + token,
-          }, data
+          }
         })
         .then(() => {
           this.$router.push("/");
