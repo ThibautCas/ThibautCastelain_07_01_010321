@@ -4,10 +4,10 @@
       <v-list-item>
         {{ comment.text }}
       </v-list-item>
-      <!-- <v-list-item-subtitle 
+      <v-list-item
           >Posted by : {{ comment.User.firstName }}
-          {{ comment.User.lastName }} at {{ comment.createdAt }}</v-list-item-subtitle
-        >  -->
+          {{ comment.User.lastName }} at {{ comment.createdAt }}</v-list-item
+        >
         <v-chip v-if="userId == comment.userId || isAdmin"
             class="mx-3 my-2"
             @click="deleteComment(comment.id)"
