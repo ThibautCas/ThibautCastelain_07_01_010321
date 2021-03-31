@@ -78,11 +78,18 @@ export const user = {
     register({ commit }, user) {
 
       return new Promise((resolve, reject) => {
+        let formData = new FormData();
+        formData.append('image', user.image);
+        formData.append('firstName', user.firstName);
+        formData.append('email', user.email);
+        formData.append('fonction', user.fonction);
+        formData.append('lastName', user.lastName);
+        formData.append('password', user.password);
         commit("auth_request");
-        axios.post("http://localhost:3000/api/signup", {
+        axios.post("http://localhost:3000/api/signup", formData, {
           headers: {
             "content-type": "multipart/form-data"
-          }, data: user,
+          },
         })
           .then((resp) => {
             const payload = resp.data;
