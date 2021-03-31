@@ -7,6 +7,7 @@
           {{ post.title }}
         </v-list-item-title>
         <v-list-item-content>{{ post.text }}</v-list-item-content>
+        <PostLikeDisplay :postId="post.id"/>
         <v-list-item-subtitle 
           >Posted by : {{ post.User.firstName }}
           {{ post.User.lastName }} at {{ post.createdAt }}</v-list-item-subtitle
@@ -56,6 +57,7 @@
 <script>
 import axios from "axios";
 import CommentDisplay from "./commentDisplay";
+import PostLikeDisplay from "./PostLikeDisplay";
 
 export default {
   name: "PostDisplay",
@@ -109,6 +111,7 @@ export default {
   },
   components: {
     CommentDisplay,
+    PostLikeDisplay
   },
 };
 </script>
