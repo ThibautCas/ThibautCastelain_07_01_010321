@@ -10,7 +10,8 @@
         >
           <v-list-item class="px-2">
             <v-list-item-avatar class="my-7">
-              <v-img
+                    <v-img v-if="image" :src="image" alt="image"></v-img>
+              <v-img v-if="!image"
                 src="https://randomuser.me/api/portraits/women/75.jpg"
               ></v-img>
             </v-list-item-avatar>

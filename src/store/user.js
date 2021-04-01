@@ -7,6 +7,7 @@ export const user = {
     firstName: localStorage.getItem("firstName") || "",
     lastName: localStorage.getItem("lastName") || "",
     fonction: localStorage.getItem("fonction") || "",
+    image: localStorage.getItem("image") || "",
     userId: localStorage.getItem("userId") || "",
     isAdmin: localStorage.getItem("isAdmin"),
   },
@@ -20,6 +21,7 @@ export const user = {
       state.firstName = payload.firstName;
       state.lastName = payload.lastName;
       state.fonction = payload.fonction;
+      state.image = payload.image;
       state.userId = payload.id || state.userId;
       state.isAdmin = payload.isAdmin || state.isAdmin;
     },
@@ -62,6 +64,7 @@ export const user = {
             localStorage.setItem("firstName", payload.firstName);
             localStorage.setItem("lastName", payload.lastName);
             localStorage.setItem("fonction", payload.fonction);
+            localStorage.setItem("image", payload.image);
             localStorage.setItem("userId", payload.id);
             localStorage.setItem("isAdmin", payload.isAdmin);
             axios.defaults.headers.common["Authorization"] = payload.token;
@@ -79,12 +82,12 @@ export const user = {
 
       return new Promise((resolve, reject) => {
         let formData = new FormData();
-        formData.append('image', user.image);
         formData.append('firstName', user.firstName);
         formData.append('email', user.email);
         formData.append('fonction', user.fonction);
         formData.append('lastName', user.lastName);
         formData.append('password', user.password);
+        formData.append('image', user.image);
         commit("auth_request");
         axios.post("http://localhost:3000/api/signup", formData, {
           headers: {

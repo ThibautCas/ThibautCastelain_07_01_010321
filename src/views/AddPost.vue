@@ -9,7 +9,7 @@
 
     <v-textarea autoGrow v-model="form.text" label="Text"></v-textarea>
 
-   <v-file-input
+    <v-file-input
       v-model="form.image"
       chips
       prepend-icon="mdi-camera"
@@ -66,19 +66,16 @@ export default {
   },
   methods: {
     validate() {
-      let data = {
-        title: this.form.title,
-        text: this.form.text || "",
-        image: this.form.image || "",
-      };
+      let formData = new FormData();
+        formData.append("title", this.form.title);
+        formData.append("text", this.form.text || "");
+        formData.append("image", this.form.image || "");
       let token = this.$store.state.user.token;
-      
-      axios({
-        url: "http://localhost:3000/api/auth/post",
-        method: "POST",
-        data: data,
-        headers: {
+
+      axios.post("http://localhost:3000/api/auth/post", formData,
+        {headers: {
           Authorization: "Bearer " + token,
+           "content-type": "multipart/form-data"
         },
       })
         .then((response) => {
@@ -89,7 +86,8 @@ export default {
         })
         .then(() => this.$router.push("/"))
         .catch((err) => console.log(err));
-    },
+    }
+    ,
     Preview_image() {
       this.url = URL.createObjectURL(this.form.image) || "";
     },

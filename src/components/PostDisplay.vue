@@ -6,6 +6,9 @@
         <v-list-item-title class="headline mb-1">
           {{ post.title }}
         </v-list-item-title>
+        <div v-if="post.image" class="post-img">
+                    <img  :src="post.image" alt="image">
+                </div>
         <v-list-item-content>{{ post.text }}</v-list-item-content>
         <PostLikeDisplay :postId="post.id"/>
         <v-list-item-subtitle 
