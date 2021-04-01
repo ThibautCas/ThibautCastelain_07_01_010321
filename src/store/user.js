@@ -30,6 +30,7 @@ export const user = {
       state.firstName = payload.firstName;
       state.lastName = payload.lastName;
       state.fonction = payload.fonction;
+      state.image = payload.image;
       state.userId = payload.id || state.userId;
       state.isAdmin = payload.isAdmin || state.isAdmin;
     },
@@ -150,6 +151,7 @@ export const user = {
             localStorage.setItem("firstName", payload.firstName);
             localStorage.setItem("lastName", payload.lastName);
             localStorage.setItem("fonction", payload.fonction);
+            localStorage.setItem("image", payload.image);
             localStorage.setItem("userId", payload.userId);
             commit("update_success", payload);
             return resolve(resp);
@@ -178,6 +180,7 @@ export const user = {
             localStorage.removeItem("firstName");
             localStorage.removeItem("lastName");
             localStorage.removeItem("fonction");
+            localStorage.removeItem("image");
             localStorage.removeItem("userId");
             localStorage.removeItem("isAdmin");
             delete axios.defaults.headers.common["Authorization"];
@@ -197,6 +200,7 @@ export const user = {
         localStorage.removeItem("firstName");
         localStorage.removeItem("lastName");
         localStorage.removeItem("fonction");
+        localStorage.removeItem("image");
         localStorage.removeItem("userId");
         localStorage.removeItem("isAdmin");
         delete axios.defaults.headers.common["Authorization"];

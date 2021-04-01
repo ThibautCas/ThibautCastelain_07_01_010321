@@ -78,12 +78,6 @@ export default {
            "content-type": "multipart/form-data"
         },
       })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
         .then(() => this.$router.push("/"))
         .catch((err) => console.log(err));
     }

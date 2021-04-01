@@ -9,10 +9,12 @@
 
     <v-textarea autoGrow v-model="form.text" label="Text"></v-textarea>
 
-    <!--<v-file-input
+    <v-file-input
     accept="image/*"
     label="File input"
-  ></v-file-input>-->
+    @change="Preview_image"
+  ></v-file-input>
+  <v-img v-if="form.image" :src="url"></v-img>
 
     <v-checkbox
       v-model="checkbox"
@@ -41,7 +43,7 @@ export default {
     form: {
       title: "",
       text: "",
-      //image: this.post.image || ""
+      image: {}
     },
     rules: {
       required: (v) => !!v || "Field is required",
@@ -49,13 +51,14 @@ export default {
     valid: false,
     select: null,
     checkbox: false,
+    url: "",
   }),
   beforeCreate() {
     let token = this.$store.state.user.token;
     let postId = localStorage.postId;
 
     axios
-      .get(`http://localhost:3000/api/auth/post/${postId}`, {
+      .get(`http://localhost:3000/api/auth/getPost/${postId}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -63,29 +66,28 @@ export default {
       .then((response) => {
         this.form.title = response.data.title;
         this.form.text = response.data.text;
+        this.url = response.data.image
         });
   },
   methods: {
     updatePost: function() {
-      let data = {
-        title: this.form.title,
-        text: this.form.text,
-        //image: this.form.image,
-      };
+      let formData = new FormData();
+        formData.append("title", this.form.title);
+        formData.append("text", this.form.text || "");
+        formData.append("image", this.form.image || "");
+      let token = this.$store.state.user.token;
       let postId = localStorage.postId;
-        let token = localStorage.token;
-        axios({
-          url: `http://localhost:3000/api/auth/post/update/${postId}`, 
-          method: "PUT",
-          data: data,
-          headers: {
-            Authorization: "Bearer " + token,
-          }
-        })
-        .then(() => {
-          this.$router.push("/");
-        })
+      axios.put(`http://localhost:3000/api/auth/post/update/${postId}`, formData,
+        {headers: {
+          Authorization: "Bearer " + token,
+           "content-type": "multipart/form-data"
+        },
+      })
+        .then(() => this.$router.push("/"))
         .catch((err) => console.log(err));
+    },
+    Preview_image() {
+      this.url = URL.createObjectURL(this.form.image) || "";
     },
     goBack() {
       this.$router.push("/");
