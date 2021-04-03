@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
   <v-chip class="mx-3" color="blue" link outlined pill >
     <v-icon color="red">mdi-heart</v-icon>
     {{ postLike.count }} liked</v-chip
