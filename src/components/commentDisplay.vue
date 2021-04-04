@@ -100,7 +100,7 @@ export default {
       return this.$store.state.user.userId;
     },
     isAdmin: function() {
-      return this.$store.getters.isAdmin;
+      return this.$store.state.user.isAdmin;  
     }
   },
   methods: {
