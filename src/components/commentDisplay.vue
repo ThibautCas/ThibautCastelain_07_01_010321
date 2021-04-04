@@ -127,7 +127,7 @@ export default {
     deleteComment: function(commentId) {
       let token = localStorage.token;
         axios({
-            url: `http://localhost:3000/api/auth/post/delete/${commentId}`,
+            url: `http://localhost:3000/api/auth/comment/delete/${commentId}`,
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           })
