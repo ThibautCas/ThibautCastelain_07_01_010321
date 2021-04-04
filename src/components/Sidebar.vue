@@ -132,7 +132,7 @@ export default {
       return this.$store.state.user.lastName;
     },
     image: function() {
-      return this.$store.state.user.image;
+      return this.$store.state.user.image != "null";
     },
     isAdmin: function() {
       return this.$store.getters.isAdmin;
