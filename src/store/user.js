@@ -45,6 +45,7 @@ export const user = {
       state.token = "";
       state.firstName = "";
       state.lastName = "";
+      state.image = "";
       state.fonction = "";
       state.userId = "";
       state.isAdmin = "";
