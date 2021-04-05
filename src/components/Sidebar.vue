@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-2 my-4" height="300" width="300">
+  <v-card class="mx-2 my-4 pa-0 ma-0" height="330" >
     <v-navigation-drawer permanent width="100%">
       <v-row class="fill-height" no-gutters>
         <v-navigation-drawer
@@ -33,16 +33,12 @@
             {{ firstName }}
             {{ lastName }}</v-list-item
           >
-          <router-link to="/user">
-            <v-btn
+            <v-btn :to="{name: 'user'}"
               class="mx-3 mb-1"
-              @click="user"
-              role="link"
               color="warning"
               depressed
               >Edit infos</v-btn
             >
-          </router-link>
           <v-divider></v-divider>
           <v-list-item>
             <v-list-item-title>Home</v-list-item-title>
@@ -142,9 +138,6 @@ export default {
     },
   },
   methods: {
-    user: function() {
-      this.$router.push("/user");
-    },
     addPost: function() {
       this.$router.push("/add-post");
     },

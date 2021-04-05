@@ -1,90 +1,76 @@
 <template>
-  <v-card>
-    <v-list v-for="comment in comments" :key="comment.id">
-      <v-list-item>
-        {{ comment.text }}
-      </v-list-item>
-      <v-list-item
-          >Posted by : {{ comment.User.firstName }}
-          {{ comment.User.lastName }} at {{ comment.createdAt }}</v-list-item
-        >
-        <v-chip v-if="userId == comment.userId || isAdmin"
-            class="mx-3 my-2"
-            @click="deleteComment(comment.id)"
-            color="error"
-            depressed
-            >Delete Comment</v-chip
-          > 
-        <v-divider></v-divider>
-    </v-list>
-      <v-divider></v-divider>
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="290"
+  <v-layout row>
+    <v-flex xs12>
+  <v-list v-for="comment in comments" :key="comment.id">
+    <v-list-item>
+      {{ comment.text }}
+    </v-list-item>
+    <v-list-item
+      >Posted by : {{ comment.User.firstName }} {{ comment.User.lastName }} at
+      {{ $moment(comment.createdAt).format("DD-MM-YYYY HH:mm:SS") }}
+    </v-list-item>
+    <v-chip
+      v-if="userId == comment.userId || isAdmin"
+      class="mx-3 my-2"
+      @click="deleteComment(comment.id)"
+      color="error"
+      depressed
+      >Delete Comment</v-chip
     >
+    <v-divider></v-divider>
+  </v-list>
+  </v-flex>
+  <v-divider></v-divider>
+    <v-dialog v-model="dialog" persistent max-width="290">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-flex xs12 class="ma-2">
+        <v-btn class="mx-3 my-3"
+        color="primary" dark v-bind="attrs" v-on="on">
           New Comment
         </v-btn>
+        </v-flex>
       </template>
-      <v-card>
-        <v-card-title >New Comment</v-card-title>
-        <v-divider></v-divider>
-        <v-textarea
-          v-model="newComment"
-          solo
-          name="comment"
-          label="Your Comment ..."
-        ></v-textarea>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+      <h4>New Comment</h4>
+      <v-divider></v-divider>
+      <v-textarea
+        v-model="newComment"
+        solo
+        name="comment"
+        label="Your Comment ..."
+      ></v-textarea>
+      <v-layout>
+        <v-flex xs12 sm3>
+        <v-spacer></v-spacer>
 
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="addComment"
-          >
-            Post Comment
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+        <v-btn color="green darken-1" text @click="dialog = false">
+          Cancel
+        </v-btn></v-flex>
+        <v-flex xs12 sm3>
+        <v-btn color="green darken-1" text @click="addComment">
+          Post Comment
+        </v-btn></v-flex>
+      </v-layout>
     </v-dialog>
-  </v-row>
-  </v-card>
+    </v-layout>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-    name: "CommentDisplay",
-    props: {
-      postId: {
-        type: Number,
-      }
+  name: "CommentDisplay",
+  props: {
+    postId: {
+      type: Number,
     },
-    data() {
-      
-      return {
+  },
+  data() {
+    return {
       newComment: "",
       comments: [],
       dialog: false,
-      }
-    },
+    };
+  },
   created() {
     let token = this.$store.state.user.token;
     axios
@@ -100,8 +86,8 @@ export default {
       return this.$store.state.user.userId;
     },
     isAdmin: function() {
-      return this.$store.state.user.isAdmin;  
-    }
+      return this.$store.state.user.isAdmin;
+    },
   },
   methods: {
     addComment: function() {
@@ -110,8 +96,9 @@ export default {
       let comment = {
         postId: this.postId,
         text: this.newComment,
-        user: userId};
-       axios({
+        user: userId,
+      };
+      axios({
         url: "http://localhost:3000/api/auth/comment",
         method: "POST",
         data: comment,
@@ -119,23 +106,23 @@ export default {
           Authorization: "Bearer " + token,
         },
       })
-      .then(() => {
+        .then(() => {
           window.location.reload();
-      })
-      .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
     },
     deleteComment: function(commentId) {
       let token = localStorage.token;
-        axios({
-            url: `http://localhost:3000/api/auth/comment/delete/${commentId}`,
-            method: "DELETE",
-            headers: { Authorization: "Bearer " + token },
-          })
-      .then(() => {
-         window.location.reload();
+      axios({
+        url: `http://localhost:3000/api/auth/comment/delete/${commentId}`,
+        method: "DELETE",
+        headers: { Authorization: "Bearer " + token },
       })
-      .catch((err) => console.log(err));
-    }
-  }
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    },
+  },
 };
 </script>

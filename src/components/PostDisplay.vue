@@ -2,7 +2,7 @@
   <v-card class="mx-2 my-4">
     <v-list-item v-for="post in posts" :key="post.id">
       <v-card class="mx-auto my-4" outlined>
-        <v-list-item-content>
+        <v-list-item-content class="mx-2">
           <v-list-item-title class="headline mb-1">
             {{ post.title }}
           </v-list-item-title>
@@ -16,10 +16,10 @@
             {{ post.createdAt }}</v-list-item-subtitle
           >
           <v-divider></v-divider>
-          <v-row justify="center" class="my-4">
+          <v-row >
             <v-dialog v-model="dialog" persistent max-width="600px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
+                <v-btn justify="center" class="mx-auto my-4"
                   v-if="userId == post.userId"
                   @click="updatePost(post.id)"
                   color="primary"
@@ -32,9 +32,10 @@
               </template>
             </v-dialog>
           </v-row>
+          <v-row >
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn
+              <v-btn justify="center" class="mx-auto my-4"
                 v-if="userId == post.userId || isAdmin"
                 @click="deletePost(post.id)"
                 color="error"
@@ -44,12 +45,9 @@
               >
             </template>
           </v-dialog>
+          </v-row>
           <v-divider v-if="userId == post.userId || isAdmin"></v-divider>
-          <v-card-actions>
-            <v-list-item text>
               <CommentDisplay :postId="post.id" />
-            </v-list-item>
-          </v-card-actions>
         </v-list-item-content>
       </v-card>
     </v-list-item>

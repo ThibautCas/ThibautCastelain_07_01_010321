@@ -1,28 +1,36 @@
 <template>
+<v-container>
+  
   <v-form ref="form" v-model="valid" lazy-validation>
-    <v-text-field
+    <v-layout row>
+    <v-flex xs12><v-text-field
       v-model="form.title"
       :rules="[rules.required]"
       label="Title"
       required
     ></v-text-field>
-
+</v-flex>
+<v-flex xs12>
     <v-textarea autoGrow v-model="form.text" label="Text"></v-textarea>
-
+</v-flex>
+<v-flex xs12>
     <v-file-input
+    v-model="form.image"
     accept="image/*"
     label="File input"
     @change="Preview_image"
-  ></v-file-input>
+  ></v-file-input></v-flex>
+  <v-flex xs12>
   <v-img v-if="form.image" :src="url"></v-img>
-
+</v-flex>
+<v-flex xs12>
     <v-checkbox
       v-model="checkbox"
       :rules="[(v) => !!v || 'You must agree to continue!']"
       label="I confirm that my post is in accordance with all the company policies."
       required
-    ></v-checkbox>
-    <div class="text-center">
+    ></v-checkbox></v-flex>
+    <v-flex align-self-end>
       <v-btn :disabled="!valid" color="success" class="mr-4" @click="updatePost">
         Validate
       </v-btn>
@@ -30,8 +38,11 @@
       <v-btn color="warning" @click="goBack">
         Back home
       </v-btn>
-    </div>
+    </v-flex>
+    </v-layout>
   </v-form>
+  
+  </v-container>
 </template>
 
 <script>
