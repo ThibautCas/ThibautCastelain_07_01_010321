@@ -10,8 +10,8 @@
         >
           <v-list-item class="px-2">
             <v-list-item-avatar class="my-7">
-                    <v-img v-if="image" :src="image" alt="image"></v-img>
-              <v-img v-if="!image"
+                    <v-img v-if="avatar" :src="image" alt="image"></v-img>
+              <v-img v-if="!avatar"
                 src="https://randomuser.me/api/portraits/women/75.jpg"
               ></v-img>
             </v-list-item-avatar>
@@ -131,8 +131,11 @@ export default {
     lastName: function() {
       return this.$store.state.user.lastName;
     },
-    image: function() {
+    avatar: function() {
       return this.$store.state.user.image != "null";
+    },
+    image: function() {
+      return this.$store.state.user.image;
     },
     isAdmin: function() {
       return this.$store.getters.isAdmin;
