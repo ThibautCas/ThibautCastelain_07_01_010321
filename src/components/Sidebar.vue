@@ -134,7 +134,7 @@ export default {
       return this.$store.state.user.image;
     },
     isAdmin: function() {
-      return this.$store.getters.isAdmin;
+      return this.$store.state.user.isAdmin === true || this.$store.state.user.isAdmin === "true";
     },
   },
   methods: {

@@ -32,7 +32,6 @@ export const user = {
       state.fonction = payload.fonction;
       state.image = payload.image;
       state.userId = payload.id || state.userId;
-      state.isAdmin = payload.isAdmin || state.isAdmin;
     },
     auth_error(state) {
       state.status = "error";
@@ -81,21 +80,21 @@ export const user = {
       });
     },
     register({ commit }, user) {
-
       return new Promise((resolve, reject) => {
         let formData = new FormData();
-        formData.append('firstName', user.firstName);
-        formData.append('email', user.email);
-        formData.append('fonction', user.fonction);
-        formData.append('lastName', user.lastName);
-        formData.append('password', user.password);
-        formData.append('image', user.image);
+        formData.append("firstName", user.firstName);
+        formData.append("email", user.email);
+        formData.append("fonction", user.fonction);
+        formData.append("lastName", user.lastName);
+        formData.append("password", user.password);
+        formData.append("image", user.image);
         commit("auth_request");
-        axios.post("http://localhost:3000/api/signup", formData, {
-          headers: {
-            "content-type": "multipart/form-data"
-          },
-        })
+        axios
+          .post("http://localhost:3000/api/signup", formData, {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          })
           .then((resp) => {
             const payload = resp.data;
             localStorage.setItem("token", payload.token);
@@ -124,29 +123,40 @@ export const user = {
           url: `http://localhost:3000/api/auth/user/byEmail/`,
           method: "PUT",
           headers: { Authorization: "Bearer " + token },
-          data: {email: payload.email},
+          data: { email: payload.email },
         })
-        .then((resp) => {
-          alert(`${emailToUpgrade} has been upgraded to Admin`);
-          return resolve(resp);
-        })
-        .catch((err) => {
-          alert(`User has not been found, impossible to upgrade`);
-          commit("update_error");
-          return reject(err);
-        });
-      })
+          .then((resp) => {
+            alert(`${emailToUpgrade} has been upgraded to Admin`);
+            return resolve(resp);
+          })
+          .catch((err) => {
+            alert(`User has not been found, impossible to upgrade`);
+            commit("update_error");
+            return reject(err);
+          });
+      });
     },
     updateUser({ commit }, user) {
       let userId = localStorage.userId;
       return new Promise((resolve, reject) => {
         let token = localStorage.token;
-        axios.put(`http://localhost:3000/api/auth/user/update/${userId}`, {
-          headers: {
-            "content-type": "multipart/form-data",
-            Authorization: "Bearer " + token,
-          }, data: user, userId
-        })
+        let formData = new FormData();
+        formData.append("firstName", user.firstName);
+        formData.append("fonction", user.fonction);
+        formData.append("lastName", user.lastName);
+        formData.append("password", user.password);
+        formData.append("image", user.image);
+        axios
+          .put(
+            `http://localhost:3000/api/auth/user/update/${userId}`,
+            formData,
+            {
+              headers: {
+                "content-type": "multipart/form-data",
+                Authorization: "Bearer " + token,
+              },
+            }
+          )
           .then((resp) => {
             const payload = resp.data;
             localStorage.setItem("firstName", payload.firstName);
@@ -212,8 +222,8 @@ export const user = {
   getters: {
     isLoggedIn: (state) => !!state.token,
     isAdmin: (state) => {
-      return state.isAdmin == "true";
-     },
+      return state.isAdmin;
+    },
     authStatus: (state) => state.status,
   },
 };

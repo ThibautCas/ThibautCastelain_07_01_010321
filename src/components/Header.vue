@@ -15,14 +15,18 @@
         ></v-img>
       </template>
 
-
-      <v-app-bar-title>Groupomania</v-app-bar-title>
-      
+      <v-img 
+        :max-width="$vuetify.breakpoint.xs ? 260 : 700"
+        class="ma-auto"
+        src="../assets/icon-left-font-monochrome-white.svg"
+        alt="Groupomania logo"
+      >
+      </v-img>
     </v-app-bar>
     <v-sheet
       id="scrolling-techniques-2"
       class="overflow-y-auto"
-      max-height="600"
+      max-height="800"
     >
       <v-container style="height: 128px;"></v-container>
     </v-sheet>
@@ -30,8 +34,7 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Header'
-}
+  name: "Header",
+};
 </script>

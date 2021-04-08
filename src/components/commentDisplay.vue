@@ -126,3 +126,8 @@ export default {
   },
 };
 </script>
+<style>
+.v-dialog.v-dialog--active.v-dialog--persistent {
+    background: white;
+}
+</style>

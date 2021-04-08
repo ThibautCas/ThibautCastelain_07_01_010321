@@ -2,7 +2,7 @@
   <v-card width="500" class="mx-auto mt-5">
     <v-form ref="form" @submit.prevent="updateUser">
       <h1 class="text-center ma-4">User Informations</h1>
-      <v-text-field
+      <!--<v-text-field
         v-model="form.firstName"
         :rules="[rules.required]"
         color="blue darken-2"
@@ -53,21 +53,21 @@
         <template v-slot:label>
           I hereby confirm that all the informations I entered are true.
         </template>
-      </v-checkbox>
+      </v-checkbox>-->
       <v-card-actions>
-        <v-btn text @click="goBack">
+        <v-btn text class="mx-auto" @click="goBack">
           Cancel
         </v-btn>
-        <v-spacer></v-spacer>
+       <!-- <v-spacer></v-spacer>
         <v-btn :disabled="!formIsValid" text color="primary" type="submit">
           Update
-        </v-btn>
+        </v-btn>-->
       </v-card-actions>
     </v-form>
     <div class="text-center">
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
+          <v-btn color="red lighten-2" class="my-3" dark v-bind="attrs" v-on="on">
             Delete Your Account
           </v-btn>
         </template>
@@ -107,7 +107,6 @@ export default {
       image: {},
       fonction: this.$store.state.user.fonction || "",
       password: "",
-      userId: this.$store.state.user.userId || "",
       terms: false,
     });
     return {
@@ -156,7 +155,6 @@ export default {
           image: this.form.image,
           fonction: this.form.fonction,
           password: this.form.password,
-          userId: localStorage.userId,
         };
         this.$store
           .dispatch("updateUser", data)
